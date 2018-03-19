@@ -26,6 +26,7 @@ class App extends Component {
   deleteRecipe(index) {
     let recipes = this.state.recipes.slice();
     recipes.splice(index, 1);
+    localStorage.setItem('recipes', JSON.stringify(recipes));
     this.setState({ recipes });
   }
 
@@ -45,7 +46,7 @@ class App extends Component {
       recipeName: this.state.newestRecipe.recipeName,
       ingredients: this.state.newestRecipe.ingredients
     });
-
+    localStorage.setItem('recipes', JSON.stringify(recipes));
     this.setState({ recipes });
     this.setState({ newestRecipe: { recipeName: "", ingredients: [] } });
     this.close();
@@ -73,6 +74,7 @@ class App extends Component {
   updateRecipeName(recipeName, currentIndex) {
     let recipes = this.state.recipes.slice();
     recipes[currentIndex] = {recipeName: recipeName, ingredients: recipes[currentIndex].ingredients};
+    localStorage.setItem('recipes', JSON.stringify(recipes));
     this.setState({recipes});
   }
 
@@ -80,6 +82,7 @@ class App extends Component {
   updateIngredients(ingredients, currentIndex) {
     let recipes = this.state.recipes.slice();
     recipes[currentIndex] = {recipeName: recipes[currentIndex].recipeName, ingredients: ingredients};
+    localStorage.setItem('recipes', JSON.stringify(recipes));
     this.setState({recipes});
   }
 
