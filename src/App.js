@@ -18,16 +18,50 @@ class App extends Component {
         {recipeName: 'EatMe1', ingredients: ['Tomato', 'Potato', 'Cucumber']},
         {recipeName: 'EatMe2', ingredients: ['Tomato', 'Potato', 'Cucumber']},
         {recipeName: 'EatMe3', ingredients: ['Tomato', 'Potato', 'Cucumber']}
-    ]
+    ],
+    showAdd: false,
+    newestRecipe: {recipeName: "", ingredients: []}
+  };
+
+  // Deletes a recipe
+
+  deleteRecipe(index) {
+    let recipes = this.state.recipes.slice();
+    recipes.splice(index, 1);
+    this.setState({recipes});
+  }
+
+  // Updates a recipe(newestRecipe.recipeName)
+
+  updateNewRecipe(recipeName, ingredients) {
+    this.setState({newestRecipe: {recipeName: recipeName, ingredients: ingredients }});
+  }
+
+  // Closes a modal
+
+  close = () => {
+    if (this.state.showAdd) {
+      this.setState({showAdd: false})
+    }
+  };
+
+  // Open a modal
+
+  open = (state) => {
+    this.setState({[state]: true});
   }
 
   render() {
-    const { recipes } = this.state;
+    const { recipes, newestRecipe } = this.state;
     return (
       <div className="App container">
-        <PanelGroup accordion>
+        <PanelGroup 
+          accordion
+          id="accordion-group"
+          defaultActiveKey="2"
+          >
           {recipes.map((recipe, index) =>(
-            <Panel eventKey={index}>
+            <Panel eventKey={index} key = {index}>
               <Panel.Heading>
                 <Panel.Title toggle>{recipe.recipeName}</Panel.Title>
               </Panel.Heading>
@@ -38,13 +72,31 @@ class App extends Component {
                   ))}
                 </ul>
                 <ButtonToolbar>
-                  <Button bsStyle="danger">Delete Recipe</Button>
+                  <Button bsStyle="danger" onClick={(event) => this.deleteRecipe(index)}>Delete Recipe</Button>
                   <Button bsStyle="default">Edit Recipe</Button>
                 </ButtonToolbar>
               </Panel.Body>
             </Panel>
           ))}
         </PanelGroup>
+        <Modal show={this.state.showAdd} onHide={this.close}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Recipe</Modal.Title>
+            <Modal.Body>
+              <FormGroup>
+                <ControlLabel>Recipe Name</ControlLabel>
+                <FormControl
+                  type="text"
+                  value={newestRecipe.recipeName}
+                  placeholder="Enter Recipe Name"
+                  onChange={(event) => this.updateNewRecipe(event.target.value, newestRecipe.ingredients)}
+                  >
+                </FormControl>
+              </FormGroup>
+            </Modal.Body>
+          </Modal.Header>
+        </Modal>
+        <Button bsStyle="primary" onClick={(event) => this.open('showAdd')}>Add Recipe</Button>
       </div>
     );
   }
