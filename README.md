@@ -1,3 +1,7 @@
+# React Recipe Box
+
+Recipe Box Project made for FreeCodeCamp. Goal of this project is to have full control over the recipes you add in the application(CRUD functionality).
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
